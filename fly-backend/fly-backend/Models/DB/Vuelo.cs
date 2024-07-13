@@ -19,7 +19,7 @@ public partial class Vuelo
 
     public decimal Precio { get; set; }
 
-    public virtual Aerolinea IdAerolineaNavigation { get; set; } = null!;
+    public virtual Aerolinea? IdAerolineaNavigation { get; set; } = null!;
 
-    public virtual ICollection<Reserva> Reservas { get; set; } = new List<Reserva>();
+    public virtual ICollection<Reserva>? Reservas { get; set; } = new List<Reserva>();
 }

@@ -6,7 +6,23 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var db_connect = Environment.GetEnvironmentVariable("ConnectionStrings:BD");
 builder.Services.AddDbContext<DesarrolloContext>(optionsAction => optionsAction.UseSqlServer(db_connect));
-builder.Services.AddControllers();
+
+// add cors 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
+
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+}); ;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -21,6 +37,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAllOrigins");
 
 app.UseAuthorization();
 

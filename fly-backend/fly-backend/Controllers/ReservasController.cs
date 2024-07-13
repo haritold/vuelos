@@ -1,4 +1,5 @@
 using fly_backend.Models.DB;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,6 +7,7 @@ namespace fly_backend.Controllers
 {
     [ApiController]
     [Route("api/v1.0.0/[controller]")]
+    [EnableCors("AllowAllOrigins")]
     public class ReservasController : ControllerBase
     {
         private readonly DesarrolloContext _context;
@@ -52,6 +54,7 @@ namespace fly_backend.Controllers
                 {
                     IdUsuario = usuarioAsignado.IdUsuario,
                     IdVuelo = vueloAsignado.IdVuelo,
+                    Fecha = DateTime.UtcNow
                 };
                 _context.Reservas.Add(reserva);
                 var nuevo = _context.SaveChangesAsync().Result;
@@ -61,32 +64,7 @@ namespace fly_backend.Controllers
         }
 
         // GET api/<ReservasController>/5
-        [HttpGet("estadisticas")]
-        public async Task<List<AerolineaConReservas>> Get()
-        {
-            var aerolineasConMasReservas = _context.Aerolineas
-            .Select(a => new AerolineaConReservas
-            {
-                Aerolinea = a.Nombre,
-                TotalReservas = a.Vuelos.SelectMany(v => v.Reservas).Count()
-            })
-            .OrderByDescending(a => a.TotalReservas)
-            .ToListAsync(); 
-
-            return await aerolineasConMasReservas;
-            
-        }
-
-        // GET api/<ReservasController>/5
-        [HttpGet("estadisticas/total")]
-        public async Task<int> ObtenerNumeroTotalAerolineasAsync()
-        {
-            return await _context.Aerolineas.Distinct().CountAsync();
-        }
+        
     }
-    public class AerolineaConReservas
-    {
-        public string? Aerolinea { get; set; }
-        public int TotalReservas { get; set; }
-    }
+    
 }

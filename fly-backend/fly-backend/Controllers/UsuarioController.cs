@@ -1,4 +1,5 @@
 ﻿using fly_backend.Models.DB;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -7,6 +8,7 @@ namespace fly_backend.Controllers
 {
     [Route("api/v1.0.0/[controller]")]
     [ApiController]
+    [EnableCors("AllowAllOrigins")]
     public class UsuarioController : ControllerBase
     {
         private readonly DesarrolloContext _context;
@@ -23,7 +25,7 @@ namespace fly_backend.Controllers
             return usuarios;
         }
         // GET: api/<UsuarioController>
-        [HttpGet]
+        [HttpPost]
         [Route("login")]
         public dynamic Get(string correo, string password)
         {
