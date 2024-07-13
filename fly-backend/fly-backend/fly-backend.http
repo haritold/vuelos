@@ -1,0 +1,6 @@
+@fly_backend_HostAddress = http://localhost:5195
+
+GET {{fly_backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
