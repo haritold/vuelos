@@ -40,13 +40,16 @@ namespace fly_backend.Controllers
             var usuario = _context.Usuarios.FirstOrDefault(u => u.IdUsuario==id);
             return usuario != null ? Ok(usuario) : NotFound(new { mensaje = "No se encontró el usuario" });
         }
-        /*
+        
         // POST api/<UsuarioController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public dynamic Post(Usuario usuario)
         {
+            _context.Usuarios.Add(usuario);
+            var user = _context.SaveChangesAsync().Result;
+            return user;
         }
-
+        /*
         // PUT api/<UsuarioController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)

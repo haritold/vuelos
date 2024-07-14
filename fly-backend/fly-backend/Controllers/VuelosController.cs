@@ -84,8 +84,8 @@ namespace fly_backend.Controllers
             }
 
             _context.Vuelos.Add(vuelo);
-            _context.SaveChangesAsync();
-            return Ok("Vuelo registrado exitosamente");
+            var v = _context.SaveChangesAsync();
+            return Ok(vuelo);
         }
         /*
         // PUT api/<VuelosController>/5
